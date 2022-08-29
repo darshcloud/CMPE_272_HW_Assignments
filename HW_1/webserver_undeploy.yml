@@ -1,0 +1,15 @@
+---
+- name: Ansible HomeWork playbook for undeploying webserver resources
+  hosts: all
+  tasks:
+
+    - name: Stop and disable apache2 service
+      service:
+        name: apache2
+        enabled: false
+        state: stopped
+
+    - name: Remove apache2 package
+      apt:
+        name: apache2
+        state: absent

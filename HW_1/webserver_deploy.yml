@@ -1,0 +1,25 @@
+---
+- name: Ansible HomeWork playbook for deploying webserver
+  hosts: all
+  vars:
+    page_data:
+      ec2-13-52-255-21.us-west-1.compute.amazonaws.com: "SJSU-1"
+      ec2-3-101-20-23.us-west-1.compute.amazonaws.com: "SJSU-2"
+  tasks:
+    
+    - name: Install apache2 package
+      apt:
+        name: apache2
+        state: latest
+    
+    - name: Start and enable apache2 service
+      service:
+        name: apache2
+        enabled: true
+        state: started
+
+    - name: Create WebServer index.html file
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          Hello World from "{{ page_data[inventory_hostname] }}"
