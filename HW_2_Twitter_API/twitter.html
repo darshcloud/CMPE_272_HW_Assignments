@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twitter API demo</title>
+    <script type="text/javascript">
+        function createTweet(){
+            var url = "http://127.0.0.1:5000/twitter-demo";
+            var data = {tweet_data: document.getElementById("create_tweet").value};
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                     'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                 alert("Successfully Posted Tweet");
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        function getTweets(){
+            var url = "http://127.0.0.1:5000/twitter-demo";
+            var param = "?user_name="+document.getElementById("gettweets").value;
+            var full_url = url + param;
+            fetch(full_url)
+            .then((response) => response.json())
+            .then((data) => document.getElementById("display_id").textContent = JSON.stringify(data.data));
+        }
+    </script>
+</head>
+<body>
+    <h1> Twitter API Demo</h1>
+
+    <h3>Create a tweet</h3>
+    <textarea name="tweet" id="create_tweet" rows="4" cols="50" placeholder="Enter your tweet here"></textarea><br><br>
+    <button type="button" id="tweet_button" onclick="createTweet()">Tweet</button>
+
+    <h3>Get Tweets</h3>
+        <input type="text" id="gettweets" name="gettweets" placeholder="Enter the username"><br><br>
+    <input type="button" value="Get Tweets" onclick="getTweets()">
+    <h3>Response</h3>
+    <div id="display_id">
+
+    </div>
+
+</body>
+</html>
