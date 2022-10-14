@@ -1,1 +1,1 @@
-# CMPE_272_HW
+# CMPE 272 Home work assignments 
