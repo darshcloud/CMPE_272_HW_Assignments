@@ -1,0 +1,36 @@
+service: image-resizing-serverless
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-west-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+        - s3:PutObject
+      Resource: 'arn:aws:s3:::my-photoimages-bucket/*'
+
+functions:
+  resize:
+    handler: handler.callImage
+    environment:
+      BUCKET: my-photoimages-bucket
+      REGION: us-west-1
+    events:
+      - http:
+          path: /{size}/{image}
+          method: get
+
+resources:
+  Resources:
+    ResizedImages:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: my-photoimages-bucket
+
+plugins:
+  - serverless-python-requirements
+
